@@ -84,22 +84,20 @@ class Database:
                 'ban_reason': ""
             }
         }
+
     async def get_settings(self, id: int) -> dict:
-        id = int(id) 
         chat = await self.grp.find_one({'id': id})
         if not chat:
-            if id < 0:
-                await self.grp.insert_one({'id': id, 'settings': self.default})
-            return self.default
-        return chat.get('settings', self.default)
-    
+            return self.default.copy()
+        return chat.get('settings', self.default.copy()) 
+
     async def update_settings(self, id: int, settings: dict):
         await self.grp.update_one(
             {'id': id}, 
             {'$set': {'settings': settings}}, 
             upsert=True
         )
-        
+
     async def find_join_req(self, id):
         return bool(await self.req.find_one({'id': id}))
 
@@ -112,7 +110,7 @@ class Database:
             },
             upsert=True
         )
-        
+
     async def has_joined_channel(self, user_id: int, channel_id: int):
         doc = await self.req.find_one({'user_id': user_id})
         return doc and 'channels' in doc and channel_id in doc['channels']
@@ -129,7 +127,7 @@ class Database:
                 reason=""
             )
         )
-    
+
     async def remove_ban(self, id):
         ban_status = dict(
             is_banned=False,
@@ -157,15 +155,15 @@ class Database:
     async def add_user(self, id, name):
         user = self.new_user(id, name)
         await self.col.insert_one(user)
-        
+
     async def is_user_exist(self, id):
         user = await self.col.find_one({'id':int(id)})
         return bool(user)
-    
+
     async def total_users_count(self):
         count = await self.col.count_documents({})
         return count
-    
+
     async def get_all_users(self):
         return self.col.find({})
 
@@ -178,13 +176,13 @@ class Database:
     async def get_banned(self):
         users = self.col.find({'ban_status.is_banned': True})
         chats = self.grp.find({'chat_status.is_disabled': True})
-    
+
         users_list = await users.to_list(length=None)
         chats_list = await chats.to_list(length=None)
-    
+
         b_chats = [chat['id'] for chat in chats_list]
         b_users = [user['id'] for user in users_list]
-    
+
         return b_users, b_chats
 
     async def disable_chat(self, chat, reason="No Reason"):
@@ -200,7 +198,7 @@ class Database:
             reason="",
         )
         await self.grp.update_one({'id': int(id)}, {'$set': {'chat_status': chat_status}})
-    
+
     async def add_chat(self, chat, title):
         chat = self.new_group(chat, title)
         await self.grp.insert_one(chat)
@@ -211,11 +209,11 @@ class Database:
 
     async def update_settings(self, id, settings):
         await self.grp.update_one({'id': int(id)}, {'$set': {'settings': settings}})   
-    
+
     async def total_chat_count(self):
         count = await self.grp.count_documents({})
         return count
-    
+
     async def get_all_chats(self):
         return self.grp.find({})
 
@@ -314,7 +312,7 @@ class Database:
                 second_time = user["third_time_verified"].astimezone(ist_timezone)
                 return second_time < pastDate
         return False
-   
+
     async def create_verify_id(self, user_id: int, hash):
         res = {"user_id": user_id, "hash":hash, "verified":False}
         return await self.verify_id.insert_one(res)
@@ -330,7 +328,7 @@ class Database:
     async def get_user(self, user_id):
         user_data = await self.users.find_one({"id": user_id})
         return user_data
-        
+
     async def update_user(self, user_data):
         await self.users.update_one({"id": user_data["id"]}, {"$set": user_data}, upsert=True)
 
@@ -345,7 +343,7 @@ class Database:
             else:
                 await self.users.update_one({"id": user_id}, {"$set": {"expiry_time": None}})
         return False
-        
+
     async def update_one(self, filter_query, update_data):
         try:
             result = await self.users.update_one(filter_query, update_data)
@@ -390,7 +388,7 @@ class Database:
         except Exception as e:
             print(f"Got err in db set : {e}")
             return False
-    
+
     #group connection 
     async def connect_group(self, group_id: int, user_id: int):
         user = await self.connection.find_one({'_id': user_id})

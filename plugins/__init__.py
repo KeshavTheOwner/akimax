@@ -14,7 +14,6 @@ COMMANDS = {
     "plan" :"ᴄʜᴇᴄᴋ ᴘʀᴇᴍɪᴜᴍ ᴘʀɪᴄᴇ.",
     "settings": "ᴄʜᴀɴɢᴇ sᴇᴛᴛɪɴɢs.",
     "details": "ꜱᴇᴇ ɢʀᴏᴜᴘ ꜱᴇᴛᴛɪɴɢꜱ.",
-    "id": "ᴄʜᴇᴄᴋ ʏᴏᴜʀ ɪᴅ.",
     "myplan": "sᴇᴇ ʏᴏᴜʀ ᴄᴜʀʀᴇɴᴛ ᴘʟᴀɴ.",
     "plan": "sᴇᴇ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴ ᴘʀɪᴄᴇ.",
     "redeem": "ʀᴇᴇᴅᴇᴍ ᴀ ᴄᴏᴅᴇ.",
@@ -30,24 +29,19 @@ COMMANDS = {
     "check_plan": "ᴄʜᴇᴄᴋ ᴜsᴇʀ ᴄᴜʀʀᴇɴᴛ ᴘʟᴀɴ.",
     "remove_premium": "ʀᴇᴍᴏᴠᴇ ᴜsᴇʀ ꜰʀᴏᴍ ᴘʀᴇᴍɪᴜᴍ ʟɪsᴛ.",
     "leave": "ʀᴇᴍᴏᴠᴇ ʙᴏᴛ ꜰʀᴏᴍ ɢʀᴏᴜᴘ.",
-    "ban_user": "ʙᴀɴ ᴛʜᴇ ᴜsᴇʀ.",
-    "unban_user": "ᴜɴʙᴀɴ ᴛʜᴇ ᴜsᴇʀ.",
-    "ban_grp": "ʙᴀɴ ᴛʜᴇ ɢʀᴏᴜᴘ.",
-    "unban_grp": "ᴜɴʙᴀɴ ᴛʜᴇ ɢʀᴏᴜᴘ.",
     "clear_junk": "ᴄʟᴇᴀʀ ᴀʟʟ ᴅᴇʟᴇᴛᴇᴅ ᴜsᴇʀ ꜰʀᴏᴍ ᴅᴀᴛᴀʙᴀsᴇ.",
     "junk_group": "ᴄʟᴇᴀʀ ᴜɴ-ᴜsᴇᴅ ɢʀᴏᴜᴘ.",
     "groups": "sᴇᴇ ɢʀᴏᴜᴘ ʟɪsᴛ ᴡʜᴇʀᴇ ʙᴏᴛ ɪs ᴀᴅᴍɪɴ.",
-    "delete": "ᴅᴇʟᴇᴛᴇ ꜱᴘᴇᴄɪꜰɪᴄ ꜰɪʟᴇs ꜰʀᴏᴍ ᴅʙ.",
-    "deleteall": "ᴅᴇʟᴇᴛᴇ ᴀʟʟ ꜰɪʟᴇs ꜰʀᴏᴍ ᴅʙ.",
-    "delreq": "ᴅᴇʟᴇᴛᴇ ᴀʟʟ ᴊᴏɪɴ ʀᴇǫ ғʀᴏᴍ ᴅʙ.",
     "del_msg": "ᴅᴇʟᴇᴛᴇ ᴀʟʟ ᴜᴘᴅᴀᴛᴇ ᴍᴇssᴀɢᴇ ꜰʀᴏᴍ ᴅʙ.",
     "movie_update": "ᴍᴏᴠɪᴇ ᴜᴘᴅᴀᴛᴇ ᴏɴ/ᴏꜰꜰ ᴀᴄᴄᴏʀᴅɪɴɢ ʏᴏᴜʀ ɴᴇᴇᴅᴇᴅ...",
     "pm_search": "ᴘᴍ sᴇᴀʀᴄʜ ᴏɴ/ᴏꜰꜰ ᴀᴄᴄᴏʀᴅɪɴɢ ʏᴏᴜʀ ɴᴇᴇᴅᴇᴅ...",
     "auto_filter": "ᴀᴜᴛᴏ ғɪʟᴛᴇʀ ᴏɴ/ᴏꜰꜰ ᴀᴄᴄᴏʀᴅɪɴɢ ʏᴏᴜʀ ɴᴇᴇᴅᴇᴅ...",
+    "maintenance_mode": "ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ ᴏɴ/ᴏꜰꜰ ᴀᴄᴄᴏʀᴅɪɴɢ ʏᴏᴜʀ ɴᴇᴇᴅᴇᴅ...",
     "resetlimit": "ʀᴇsᴇᴛ ᴀʟʟ ᴜsᴇʀs ꜰɪʟᴇ ʟɪᴍɪᴛ ᴛᴏ 0.",
     "resetuser": "ʀᴇsᴇᴛ sᴘᴇᴄɪꜰɪᴄ ᴜsᴇʀ ꜰɪʟᴇ ʟɪᴍɪᴛ.",
     "checklimit": "ᴄʜᴇᴄᴋ ᴜsᴇʀ ᴄᴜʀʀᴇɴᴛ ꜰɪʟᴇ ʟɪᴍɪᴛ."
 }
+
 
 async def check_expired_premium(client):
     while 1:
@@ -74,7 +68,7 @@ async def set_silicon_commands(client):
         print("✅ Bot commands updated successfully!")
     except Exception as e:
         print(f"❌ Error setting bot commands: {e}")
-            
+
 async def reset_file_limits_daily():
     tz = pytz.timezone('Asia/Kolkata')
     while True:

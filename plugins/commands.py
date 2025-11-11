@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 async def start(client: Client, message): 
     m = message
     user_id = m.from_user.id
+    sili = silicondb.get_bot_sttgs()
 
     try:
         data = message.command[1]
@@ -55,6 +56,12 @@ async def start(client: Client, message):
             [InlineKeyboardButton('• ᴇᴀʀɴ ᴍᴏɴᴇʏ ᴡɪᴛʜ ʙᴏᴛ •', callback_data='earn')]
         ]
 
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
+
     if len(message.command) == 2 and data.startswith('getfile'):
         movies = message.command[1].split("-", 1)[1] 
         movie = movies.replace('-',' ')
@@ -68,23 +75,23 @@ async def start(client: Client, message):
         grp_id = temp.CHAT.get(user_id, 0)
         settings = await get_settings(grp_id)         
         verify_id_info = await db.get_verify_id_info(user_id, verify_id)
-        
+
         if not verify_id_info or verify_id_info["verified"]:
             await message.reply("<b>ʟɪɴᴋ ᴇxᴘɪʀᴇᴅ ᴛʀʏ ᴀɢᴀɪɴ...</b>")
             return  
-            
+
         ist_timezone = pytz.timezone('Asia/Kolkata')
         key = "third_time_verified" if await db.user_verified(user_id) else ("second_time_verified" if await db.is_user_verified(user_id) else "last_verified")
         current_time = datetime.now(tz=ist_timezone)
-        
+
         await db.update_notcopy_user(user_id, {key: current_time})
         await db.update_verify_id_info(user_id, verify_id, {"verified": True})
-        
+
         num = 3 if key == "third_time_verified" else (2 if key == "second_time_verified" else 1)
         msg = script.THIRDT_VERIFY_COMPLETE_TEXT if key == "third_time_verified" else (script.SECOND_VERIFY_COMPLETE_TEXT if key == "second_time_verified" else script.VERIFY_COMPLETE_TEXT)
-        
+
         await client.send_message(settings['log'], script.VERIFIED_LOG_TEXT.format(m.from_user.mention, user_id, datetime.now(pytz.timezone('Asia/Kolkata')).strftime('%d %B %Y'), num))
-        
+
         btn = [[InlineKeyboardButton("‼️ ᴄʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ɢᴇᴛ ꜰɪʟᴇ ‼️", url=f"https://telegram.me/{temp.U_NAME}?start=file_{grp_id}_{file_id}")]]
         await m.reply_photo(
             photo=VERIFY_IMG,
@@ -112,24 +119,24 @@ async def start(client: Client, message):
         try:
             uss = await client.get_users(user_id)
         except Exception:
-            return 	    
+            return             
         silicondb.add_user(message.from_user.id)
         fromuse = silicondb.get_silicon_refer_points(user_id) + 10
         if fromuse == 100:
             silicondb.add_refer_points(user_id, 0) 
-            await message.reply_text(f"🎉 𝗖𝗼𝗻𝗴𝗿𝗮𝘁𝘂𝗹𝗮𝘁𝗶𝗼𝗻𝘀! 𝗬𝗼𝘂 𝘄𝗼𝗻 𝟭𝟬 𝗥𝗲𝗳𝗲𝗿𝗿𝗮𝗹 𝗽𝗼𝗶𝗻𝘁 𝗯𝗲𝗰𝗮𝘂𝘀𝗲 𝗬𝗼𝘂 𝗵𝗮𝘃𝗲 𝗯𝗲𝗲𝗻 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗜𝗻𝘃𝗶𝘁𝗲𝗱 ☞ {uss.mention}!")		    
-            await message.reply_text(user_id, f"You have been successfully invited by {message.from_user.mention}!") 	
+            await message.reply_text(f"🎉 𝗖𝗼𝗻𝗴𝗿𝗮𝘁𝘂𝗹𝗮𝘁𝗶𝗼𝗻𝘀! 𝗬𝗼𝘂 𝘄𝗼𝗻 𝟭𝟬 𝗥𝗲𝗳𝗲𝗿𝗿𝗮𝗹 𝗽𝗼𝗶𝗻𝘁 𝗯𝗲𝗰𝗮𝘂𝘀𝗲 𝗬𝗼𝘂 𝗵𝗮𝘃𝗲 𝗯𝗲𝗲𝗻 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗜𝗻𝘃𝗶𝘁𝗲𝗱 ☞ {uss.mention}!")                    
+            await message.reply_text(user_id, f"You have been successfully invited by {message.from_user.mention}!")         
             seconds = 2592000
             if seconds > 0:
                 expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=seconds)
                 user_data = {"id": user_id, "expiry_time": expiry_time}
-                await db.update_user(user_data)		    
+                await db.update_user(user_data)                    
                 await client.send_message(
                 chat_id=user_id,
                 text=f"<b>Hᴇʏ {uss.mention}\n\nYᴏᴜ ɢᴏᴛ 1 ᴍᴏɴᴛʜ ᴘʀᴇᴍɪᴜᴍ sᴜʙsᴄʀɪᴘᴛɪᴏɴ ʙʏ ɪɴᴠɪᴛɪɴɢ 10 ᴜsᴇʀs ❗", disable_web_page_preview=True              
                 )
             for admin in ADMINS:
-                await client.send_message(chat_id=admin, text=f"Sᴜᴄᴄᴇss ғᴜʟʟʏ ᴛᴀsᴋ ᴄᴏᴍᴘʟᴇᴛᴇᴅ ʙʏ ᴛʜɪs ᴜsᴇʀ:\n\nuser Nᴀᴍᴇ: {uss.mention}\n\nUsᴇʀ ɪᴅ: {uss.id}!")	
+                await client.send_message(chat_id=admin, text=f"Sᴜᴄᴄᴇss ғᴜʟʟʏ ᴛᴀsᴋ ᴄᴏᴍᴘʟᴇᴛᴇᴅ ʙʏ ᴛʜɪs ᴜsᴇʀ:\n\nuser Nᴀᴍᴇ: {uss.mention}\n\nUsᴇʀ ɪᴅ: {uss.id}!")        
         else:
             silicondb.add_refer_points(user_id, fromuse)
             await message.reply_text(f"You have been successfully invited by {uss.mention}!")
@@ -142,7 +149,7 @@ async def start(client: Client, message):
         await asyncio.sleep(600)
         await sili.delete()
         await m.delete()
-        
+
         if str(message.chat.id).startswith("-100") and not await db.get_chat(message.chat.id):
             total = await client.get_chat_members_count(message.chat.id)
             group_link = await message.chat.export_invite_link()
@@ -159,12 +166,12 @@ async def start(client: Client, message):
             parse_mode=enums.ParseMode.HTML
         )
         return
-        
+
     try:
         pre, grp_id, file_id = data.split('_', 2)
     except ValueError:
         pre, grp_id, file_id = "", 0, data
-        
+
     if not await db.has_premium_access(message.from_user.id):
         try:
             btn = []
@@ -176,7 +183,8 @@ async def start(client: Client, message):
 
             settings = await get_settings(chat)
             fsub_channels = list(dict.fromkeys((settings.get('fsub', []) if settings else []) + AUTH_CHANNELS))
-
+            if not fsub_channels and not AUTH_REQ_CHANNELS:           
+                return
             if fsub_channels:
                 btn += await is_subscribed(client, message.from_user.id, fsub_channels)
             if AUTH_REQ_CHANNELS:
@@ -225,7 +233,7 @@ async def start(client: Client, message):
             if current_file_count < FILES_LIMIT:
                 silicondb.increment_silicon_limit(user_id)
                 current_file_count += 1
-                
+
                 if not data:
                     return
 
@@ -248,7 +256,7 @@ async def start(client: Client, message):
                 settings = await get_settings(grp_id)
 
                 file_limit_info = f"\n\n📊 ʏᴏᴜ ʜᴀᴠᴇ ʀᴇᴄᴇɪᴠᴇᴅ {current_file_count}/{FILES_LIMIT} ꜰʀᴇᴇ ꜰɪʟᴇs"
-                
+
                 f_caption = settings['caption'].format(
                     file_name=formate_file_name(files['file_name']),
                     file_size=get_size(files['file_size']),
@@ -311,13 +319,13 @@ async def start(client: Client, message):
         for file in files:
             grp_id = temp.CHAT.get(user_id)
             settings = await get_settings(grp_id)
-            
+
             f_caption = settings['caption'].format(
                 file_name=formate_file_name(file['file_name']),
                 file_size=get_size(file['file_size']),
                 file_caption=file.get('caption', '')
             )
-            
+
             btn = [[InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f'stream#{file["_id"]}')]]
             toDel = await client.send_cached_media(
                 chat_id=message.from_user.id,
@@ -401,30 +409,38 @@ async def invite(client, message):
 async def top(_, message):
 
     limit = extract_limit_from_command(message.command, default=20)
-    
+
     searches = await process_trending_data(limit=limit, format_type="keyboard")
     keyboard = create_keyboard_layout(searches)
-    
+
     reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True, placeholder="Most searches of the day")
     await message.reply_text(f"<b>Tᴏᴘ Sᴇᴀʀᴄʜᴇs Oғ Tʜᴇ Dᴀʏ 👇</b>", reply_markup=reply_markup)
 
 @Client.on_message(filters.command('trendlist'))
 async def trendlist(client, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
+
     limit = extract_limit_from_command(message.command, default=31)
     if limit == -1:  
         return await message.reply_text("ɪɴᴠᴀʟɪᴅ ɴᴜᴍʙᴇʀ ғᴏʀᴍᴀᴛ.\nᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴀ ᴠᴀʟɪᴅ ɴᴜᴍʙᴇʀ ᴀғᴛᴇʀ ᴛʜᴇ /ᴛʀᴇɴᴅʟɪsᴛ ᴄᴏᴍᴍᴀɴᴅ.")
-    
+
     try:
         searches = await process_trending_data(limit=limit, format_type="list")
         if not searches:
             return await message.reply_text("ɴᴏ ᴛʀᴇɴᴅɪɴɢ sᴇᴀʀᴄʜᴇs ғᴏᴜɴᴅ.")
-        
+
         trend_list = generate_trend_list(searches)
         footer_msg = "⚡️ 𝑨𝒍𝒍 𝒕𝒉𝒆 𝒓𝒆𝒔𝒖𝒍𝒕𝒔 𝒂𝒃𝒐𝒗𝒆 𝒄𝒐𝒎𝒆 𝒇𝒓𝒐𝒎 𝒘𝒉𝒂𝒕 𝒖𝒔𝒆𝒓𝒔 𝒉𝒂𝒗𝒆 𝒔𝒆𝒂𝒓𝒄𝒉𝒆𝒅 𝒇𝒐𝒓. 𝑻𝒉𝒆𝒚'𝒓𝒆 𝒔𝒉𝒐𝒘𝒏 𝒕𝒐 𝒚𝒐𝒖 𝒆𝒙𝒂𝒄𝒕𝒍𝒚 𝒂𝒔 𝒕𝒉𝒆𝒚 𝒘𝒆𝒓𝒆 𝒔𝒆𝒂𝒓𝒄𝒉𝒆𝒅, 𝒘𝒊𝒕𝒉𝒐𝒖𝒕 𝒂𝒏𝒚 𝒄𝒉𝒂𝒏𝒈𝒆𝒔 𝒃𝒚 𝒕𝒉𝒆 𝒐𝒘𝒏𝒆𝒓."
-        
+
         final_text = f"<b>ᴛᴏᴘ {len(searches)} ᴛʀᴇɴᴅɪɴɢ ᴏғ ᴛʜᴇ ᴅᴀʏ 👇:</b>\n\n{trend_list}\n\n{footer_msg}"
         await message.reply_text(final_text)
-        
+
     except Exception as e:
         await message.reply_text(f"Error retrieving trending data: {str(e)}")
 
@@ -460,6 +476,14 @@ async def delete_all_index(bot, message):
 
 @Client.on_message(filters.command('settings'))
 async def settings(client, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
+
     user_id = message.from_user.id if message.from_user else None
     if not user_id:
         return await message.reply("<b>💔 ʏᴏᴜ ᴀʀᴇ ᴀɴᴏɴʏᴍᴏᴜꜱ ᴀᴅᴍɪɴ ʏᴏᴜ ᴄᴀɴ'ᴛ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ...</b>")
@@ -505,6 +529,13 @@ async def settings(client, message):
 
 @Client.on_message(filters.command('set_template'))
 async def save_template(client, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     chat_type = message.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         return await message.reply_text("<b>ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ ɪɴ ɢʀᴏᴜᴘ...</b>")
@@ -541,18 +572,18 @@ async def reset_user_limit(client, message):
                 "<b>❌ ᴜsᴀɢᴇ: /resetuser ᴜsᴇʀ_ɪᴅ</b>", 
                 parse_mode=enums.ParseMode.HTML
             )
-        
+
         user_id = int(message.command[1])
         old_limit = silicondb.silicon_file_limit(user_id)
         silicondb.reset_file_limit(user_id)
-        
+
         await message.reply_text(
             f"<b>✅ sᴜᴄᴄᴇssꜰᴜʟʟʏ ʀᴇsᴇᴛ ꜰɪʟᴇ ʟɪᴍɪᴛ ꜰᴏʀ ᴜsᴇʀ {user_id}!\n\n"
             f"ᴘʀᴇᴠɪᴏᴜs ʟɪᴍɪᴛ: {old_limit}\n"
             f"ᴄᴜʀʀᴇɴᴛ ʟɪᴍɪᴛ: 0</b>", 
             parse_mode=enums.ParseMode.HTML
         )
-        
+
     except ValueError:
         await message.reply_text(
             "<b>❌ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴀ ᴠᴀʟɪᴅ ᴜsᴇʀ ɪᴅ!</b>", 
@@ -572,17 +603,17 @@ async def check_user_limit(client, message):
                 "<b>❌ ᴜsᴀɢᴇ: /checklimit ᴜsᴇʀ_ɪᴅ</b>", 
                 parse_mode=enums.ParseMode.HTML
             )
-        
+
         user_id = int(message.command[1])
         current_limit = silicondb.silicon_file_limit(user_id)
-        
+
         await message.reply_text(
             f"<b>📊 ꜰɪʟᴇ ʟɪᴍɪᴛ sᴛᴀᴛᴜs ꜰᴏʀ ᴜsᴇʀ {user_id}:\n\n"
             f"ᴄᴜʀʀᴇɴᴛ ᴅᴏᴡɴʟᴏᴀᴅs: {current_limit}/{FILES_LIMIT}\n"
             f"ʀᴇᴍᴀɪɴɪɴɢ: {max(0, FILES_LIMIT - current_limit)}</b>", 
             parse_mode=enums.ParseMode.HTML
         )
-        
+
     except ValueError:
         await message.reply_text(
             "<b>❌ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴀ ᴠᴀʟɪᴅ ᴜsᴇʀ ɪᴅ!</b>", 
@@ -593,7 +624,7 @@ async def check_user_limit(client, message):
             f"<b>❌ ᴇʀʀᴏʀ ᴄʜᴇᴄᴋɪɴɢ ᴜsᴇʀ ʟɪᴍɪᴛ: {str(e)}</b>", 
             parse_mode=enums.ParseMode.HTML
         )
-    
+
 @Client.on_message(filters.command("send"))
 async def send_msg(bot, message):
     if message.from_user.id not in ADMINS:
@@ -643,6 +674,13 @@ async def send_request(bot, message):
 
 @Client.on_message(filters.command('set_caption'))
 async def save_caption(client, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     grp_id = message.chat.id
     title = message.chat.title
     if not await is_check_admin(client, grp_id, message.from_user.id):
@@ -656,9 +694,16 @@ async def save_caption(client, message):
         return await message.reply_text("Command Incomplete!")
     await save_group_settings(grp_id, 'caption', caption)
     await message.reply_text(f"Successfully changed caption for {title} to\n\n{caption}", disable_web_page_preview=True) 
-    
+
 @Client.on_message(filters.command("set_tutorial"))
 async def tutorial(bot, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     chat_type = message.chat.type
     if chat_type == enums.ChatType.PRIVATE:
         return await message.reply_text("<b>ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ.</b>")
@@ -679,9 +724,16 @@ async def tutorial(bot, message):
     reply = await message.reply_text("<b>ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ...</b>")
     await save_group_settings(grpid, 'tutorial', tutorial)
     await reply.edit_text(f"<b>sᴜᴄᴄᴇssꜰᴜʟʟʏ ᴄʜᴀɴɢᴇᴅ ᴛᴜᴛᴏʀɪᴀʟ ꜰᴏʀ {title}</b>\n\nʟɪɴᴋ - {tutorial}", disable_web_page_preview=True)
-    
+
 @Client.on_message(filters.command("set_tutorial_2"))
 async def tutorial_two(bot, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     chat_type = message.chat.type
     if chat_type == enums.ChatType.PRIVATE:
         return await message.reply_text("<b>ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ.</b>")
@@ -705,6 +757,13 @@ async def tutorial_two(bot, message):
 
 @Client.on_message(filters.command("set_tutorial_3"))
 async def tutorial_three(bot, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     chat_type = message.chat.type
     if chat_type == enums.ChatType.PRIVATE:
         return await message.reply_text("<b>ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ.</b>")
@@ -728,6 +787,13 @@ async def tutorial_three(bot, message):
 
 @Client.on_message(filters.command('set_shortner'))
 async def set_shortner(c, m):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await m.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     grp_id = m.chat.id
     chat_type = m.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
@@ -762,6 +828,13 @@ async def set_shortner(c, m):
 
 @Client.on_message(filters.command('set_shortner_2'))
 async def set_shortner_2(c, m):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await m.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     grp_id = m.chat.id
     chat_type = m.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
@@ -796,6 +869,13 @@ async def set_shortner_2(c, m):
 
 @Client.on_message(filters.command('set_shortner_3'))
 async def set_shortner_3(c, m):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await m.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     chat_type = m.chat.type
     if chat_type == enums.ChatType.PRIVATE:
         return await m.reply_text("<b>Use this command in Your group ! Not in Private</b>")
@@ -838,6 +918,13 @@ async def set_shortner_3(c, m):
 
 @Client.on_message(filters.command('set_time_2'))
 async def set_time_2(client, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     userid = message.from_user.id if message.from_user else None
     chat_type = message.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
@@ -857,6 +944,13 @@ async def set_time_2(client, message):
 
 @Client.on_message(filters.command('set_time_3'))
 async def set_time_3(client, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply("<b>ʏᴏᴜ ᴀʀᴇ ᴀɴᴏɴʏᴍᴏᴜꜱ ᴀᴅᴍɪɴ ɪɴ ᴛʜɪꜱ ɢʀᴏᴜᴘ...</b>")
@@ -876,6 +970,13 @@ async def set_time_3(client, message):
 
 @Client.on_message(filters.command('set_log_channel'))
 async def set_log(client, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     grp_id = message.chat.id
     title = message.chat.title
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
@@ -912,6 +1013,13 @@ async def set_log(client, message):
 
 @Client.on_message(filters.command('details'))
 async def all_settings(client, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     grp_id = message.chat.id
     title = message.chat.title
     chat_type = message.chat.type
@@ -985,9 +1093,9 @@ async def auto_filter_toggle(bot, message):
     if len(message.command) < 2:
         await message.reply('ᴜsᴀɢᴇ: /auto_filter on/off\n\nᴇxᴀᴍᴘʟᴇ: `/auto_filter on` ᴏʀ `/auto_filter off`')
         return
-    
+
     action = message.command[1].lower()
-    
+
     if action == 'on':
         silicondb.update_bot_sttgs('AUTO_FILTER', True)
         await message.reply('✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴛᴜʀɴᴇᴅ **ᴏɴ** ᴀᴜᴛᴏ ғɪʟᴛᴇʀ ғᴏʀ ᴀʟʟ ɢʀᴏᴜᴘs')
@@ -997,14 +1105,37 @@ async def auto_filter_toggle(bot, message):
     else:
         await message.reply('❗ ɪɴᴠᴀʟɪᴅ ᴀʀɢᴜᴍᴇɴᴛ! ᴜsᴇ `on` ᴏʀ `off`\n\nᴇxᴀᴍᴘʟᴇ: `/auto_filter on` ᴏʀ `/auto_filter off`')
 
+@Client.on_message(filters.command('maintenance_mode') & filters.user(ADMINS))
+async def maintenance_mode_toggle(bot, message):
+    if len(message.command) < 2:
+        await message.reply(
+            'ᴜsᴀɢᴇ: /maintenance_mode on/off\n\n'
+            'ᴇxᴀᴍᴘʟᴇ: `/maintenance_mode on` ᴏʀ `/maintenance_mode off`'
+        )
+        return
+
+    action = message.command[1].lower()
+
+    if action == 'on':
+        silicondb.update_bot_sttgs('MAINTENANCE_MODE', True)
+        await message.reply('🔧 ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ ᴍᴏᴅᴇ **ᴇɴᴀʙʟᴇᴅ** ғᴏʀ ᴀʟʟ ᴜsᴇʀs. 🚧')
+    elif action == 'off':
+        silicondb.update_bot_sttgs('MAINTENANCE_MODE', False)
+        await message.reply('✅ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ ᴍᴏᴅᴇ **ᴅɪsᴀʙʟᴇᴅ**, ʙᴏᴛ ɪs ʙᴀᴄᴋ ᴏɴʟɪɴᴇ! ⚡')
+    else:
+        await message.reply(
+            '❗ ɪɴᴠᴀʟɪᴅ ᴀʀɢᴜᴍᴇɴᴛ! ᴜsᴇ `on` ᴏʀ `off`\n\n'
+            'ᴇxᴀᴍᴘʟᴇ: `/maintenance_mode on` ᴏʀ `/maintenance_mode off`'
+        )
+
 @Client.on_message(filters.command('pm_search') & filters.user(ADMINS))
 async def pm_search_toggle(bot, message):
     if len(message.command) < 2:
         await message.reply('ᴜsᴀɢᴇ: /pm_search <on/off>\n\nᴇxᴀᴍᴘʟᴇ: `/pm_search on` ᴏʀ `/pm_search off`')
         return
-    
+
     action = message.command[1].lower()
-    
+
     if action == 'on':
         silicondb.update_bot_sttgs('PM_SEARCH', True)
         await message.reply('✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴛᴜʀɴᴇᴅ **ᴏɴ** ᴘᴍ sᴇᴀʀᴄʜ ғᴏʀ ᴀʟʟ ᴜsᴇʀs')
@@ -1016,6 +1147,13 @@ async def pm_search_toggle(bot, message):
 
 @Client.on_message(filters.command('set_fsub'))
 async def set_fsub(client, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     try:
         userid = message.from_user.id if message.from_user else None
         if not userid:
@@ -1120,4 +1258,11 @@ async def admin_commands(client, message):
 
 @Client.on_message(filters.command('group_cmd'))
 async def group_commands(client, message):
+    sili = silicondb.get_bot_sttgs()
+
+    if sili and sili.get('MAINTENANCE_MODE', False):
+        return await message.reply_text(
+            "<b>⚙️ ʙᴏᴛ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ!\n\n"
+            "🚧 ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ.</b>"
+        )
     await message.reply_text(script.GROUP_CMD, disable_web_page_preview=True)
