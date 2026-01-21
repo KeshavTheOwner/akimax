@@ -114,9 +114,9 @@ async def plan(client, message):
     else:
         user_info = f"{message.from_user.mention}"
     log_message = f"<b><u>🚫 ᴛʜɪs ᴜsᴇʀs ᴛʀʏ ᴛᴏ ᴄʜᴇᴄᴋ /plan</u> {temp.B_LINK}\n\n- ɪᴅ - `{user_id}`\n- ɴᴀᴍᴇ - {user_info}</b>"
-    btn = [
-        [
-        InlineKeyboardButton("🗑 ᴄʟᴏsᴇ / ᴅᴇʟᴇᴛᴇ 🗑", callback_data="close_data")
+    btn = [[
+        InlineKeyboardButton("☆📸 ꜱᴇɴᴅ ꜱᴄʀᴇᴇɴꜱʜᴏᴛ 📸☆",url=f"https://telegram.me/KeshavTheOwner")],
+        [InlineKeyboardButton("🗑 ᴄʟᴏsᴇ / ᴅᴇʟᴇᴛᴇ 🗑", callback_data="close_data")
     ]]
     await message.reply_photo(
         photo=(QR_CODE),
