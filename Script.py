@@ -1,11 +1,8 @@
 class script(object):
-    START_TXT = """<b> ʜɪ {} {},
+    START_TXT =  """ʜᴇʏ {}, {}
     
-ɪ'ᴍ ᴛʜᴇ ᴍᴏsᴛ ᴀᴅᴠᴀɴᴄᴇ ᴀɪ ᴘᴏᴡᴇʀᴅ 🤖 ᴀᴜᴛᴏ ꜰɪʟᴛᴇʀ ʙᴏᴛ..
-sᴇɴᴅ ᴍᴇ ᴀɴʏ ᴍᴏᴠɪᴇ ᴏʀ sᴇʀɪᴇs ɴᴀᴍᴇ ᴀɴᴅ sᴇᴇ ᴍʏ ᴍᴀɢɪᴄ..✨
-
-<blockquote>ᴍᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ : <a href='https://telegram.me/Silicon_Official'>ѕιℓι¢ση σƒƒ¢ιαℓ</a></blockquote>
-</b>"""
+ɪ ᴀᴍ ᴀ ᴘᴏᴡᴇʀꜰᴜʟ ᴀᴜᴛᴏꜰɪʟᴛᴇʀ ʙᴏᴛ. ʏᴏᴜ ᴄᴀɴ ᴜsᴇ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ɪ ᴡɪʟʟ ɢɪᴠᴇ ᴍᴏᴠɪᴇs ᴏʀ sᴇʀɪᴇs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴀɴᴅ ᴘᴍ !! 😍
+<blockquote>🌿 ᴍᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ : <a href="https://t.me/KeshavTheOwner">KeshavTheOwner &lt;/&gt;</a></blockquote>"""
     
     HELP_TXT = """<b>ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴꜱ ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴅᴏᴄᴜᴍᴇɴᴛᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ꜱᴘᴇᴄɪꜰɪᴄ ᴍᴏᴅᴜʟᴇꜱ..</b>"""
     
@@ -56,15 +53,13 @@ sᴇɴᴅ ᴍᴇ ᴀɴʏ ᴍᴏᴠɪᴇ ᴏʀ sᴇʀɪᴇs ɴᴀᴍᴇ ᴀɴᴅ 
 • /checklimit - ᴄʜᴇᴄᴋ ᴜꜱᴇʀ ꜰɪʟᴇ ʟɪᴍɪᴛ""" 
 
 
-    ABOUT_TEXT = """<blockquote><b>🤖 ᴍʏ ɴᴀᴍᴇ: {}
-⚙️ ʜᴏsᴛᴇᴅ ᴏɴ : <a href="https://www.heroku.com/">ʜᴇʀᴏᴋᴜ</a>
-🍿 ᴅᴀᴛᴀʙᴀsᴇ : <a href="https://www.mongodb.com/">ᴍᴏɴɢᴏ ᴅʙ</a>
-🐍 ᴄᴏᴅɪɴɢ ᴍᴜsᴄʟᴇs : <a href="https://www.python.org/">ᴘʏᴛʜᴏɴ 𝟹</a>
-📚 ʟɪʙʀᴀʀʏ: <a href="https://github.com/Mayuri-Chan/pyrofork">ᴘʏʀᴏꜰᴏʀᴋ</a>
-👨‍💻 ᴏᴡɴᴇʀ : <a href="https://telegram.me/Silicon_Official">ѕιℓι¢ση σƒƒ¢ιαℓ</a>
-🔧 ʙᴜɪʟᴅ sᴛᴀᴛᴜs : ᴠ𝟷.𝟶.𝟷
-💥 ʀᴇᴘᴏ : <a href="https://github.com/Silicon-Developer/Auto-Filter-Bot">ᴄʟɪᴄᴋ ʜᴇʀᴇ</a>
-</b></blockquote>"""
+    ABOUT_TEXT = """<blockquote><b>‣ ᴍʏ ɴᴀᴍᴇ : Movie filter bot
+‣ ᴄʀᴇᴀᴛᴏʀ : <a href='https://t.me/Mahesh8182'>Dev Bambhava &lt;/&gt;</a>
+‣ ʟɪʙʀᴀʀʏ : ᴘʏʀᴏɢʀᴀᴍ
+‣ ʟᴀɴɢᴜᴀɢᴇ : ᴘʏᴛʜᴏɴ
+‣ ᴅᴀᴛᴀ ʙᴀsᴇ : ᴍᴏɴɢᴏ ᴅʙ
+‣ ʜᴏsᴛᴇᴅ ᴏɴ  :  ᴡᴇʙ
+‣ ʙᴜɪʟᴅ sᴛᴀᴛᴜs : V-4.1 [sᴛᴀʙʟᴇ]</b></blockquote>"""
 
     SUPPORT_GRP_MOVIE_TEXT = '''<b>ʜᴇʏ {}
     
@@ -142,7 +137,7 @@ sᴇɴᴅ ᴍᴇ ᴀɴʏ ᴍᴏᴠɪᴇ ᴏʀ sᴇʀɪᴇs ɴᴀᴍᴇ ᴀɴᴅ 
 ❗️ ʟᴀɴɢᴜᴀɢᴇ - {languages}</b>
 """
 
-    FILE_CAPTION = """<b>{file_name}\n\nUploaded By: <a href="https://t.me/Silicon_Bot_Update">Silicon Botz</a></b>"""
+    FILE_CAPTION = """<b>{file_name}</b>"""
 
     MOVIE_UPDATE_NOTIFY_TXT = """
 </b><a href={poster_url}>📥</a><a href={imdb_url}>New {tag} Added</a></b>
@@ -190,10 +185,11 @@ sᴇɴᴅ ᴍᴇ ᴀɴʏ ᴍᴏᴠɪᴇ ᴏʀ sᴇʀɪᴇs ɴᴀᴍᴇ ᴀɴᴅ 
     
     PREMIUM_TEXT = """<b><i><blockquote>ᴀᴠᴀɪʟᴀʙʟᴇ ᴘʟᴀɴs  ♻️</blockquote>
 
-• 𝟷 ᴡᴇᴇᴋ  -  ₹𝟹𝟶
-• 𝟷 ᴍᴏɴᴛʜ  -  ₹𝟻𝟶
-• 𝟹 ᴍᴏɴᴛʜs  -  ₹𝟷𝟶𝟶
-• 𝟼 ᴍᴏɴᴛʜs  -  ₹𝟸𝟶𝟶
+❏ 035₹    ➠    𝟶𝟷 ᴡᴇᴇᴋꜱ
+❏ 070₹    ➠    𝟶𝟷 ᴍᴏɴᴛʜ
+❏ 150₹    ➠    𝟶𝟹 ᴍᴏɴᴛʜ
+❏ 250₹    ➠    𝟶𝟼 ᴍᴏɴᴛʜ
+❏ 350₹    ➠    𝟷𝟸 ᴍᴏɴᴛʜ
 
 •─────•─────────•─────•
 <blockquote>ᴘʀᴇᴍɪᴜᴍ ꜰᴇᴀᴛᴜʀᴇs  🎁</blockquote>
@@ -209,7 +205,7 @@ sᴇɴᴅ ᴍᴇ ᴀɴʏ ᴍᴏᴠɪᴇ ᴏʀ sᴇʀɪᴇs ɴᴀᴍᴇ ᴀɴᴅ 
 •─────•─────────•─────•
 
 
-✨ ᴜᴘɪ ɪᴅ - <code>pay-to-yash-singh@fam</code>
+✨ ᴜᴘɪ ɪᴅ - <code>devic5348-1@okaxis</code>
 
 ᴄʜᴇᴄᴋ ʏᴏᴜʀ ᴀᴄᴛɪᴠᴇ ᴘʟᴀɴ  /myplan
 
@@ -217,9 +213,9 @@ sᴇɴᴅ ᴍᴇ ᴀɴʏ ᴍᴏᴠɪᴇ ᴏʀ sᴇʀɪᴇs ɴᴀᴍᴇ ᴀɴᴅ 
 
 ‼️ ᴀꜰᴛᴇʀ sᴇɴᴅɪɴɢ ᴀ sᴄʀᴇᴇɴsʜᴏᴛ ᴘʟᴇᴀsᴇ ɢɪᴠᴇ ᴍᴇ sᴏᴍᴇ ᴛɪᴍᴇ ᴛᴏ ᴀᴅᴅ ʏᴏᴜ ɪɴ ᴛʜᴇ ᴘʀᴇᴍɪᴜᴍ ᴠᴇʀsɪᴏɴ.</i></b>"""
 
-    BUY_PLAN = """<b>○ <u>ꜰɪʀsᴛ sᴛᴇᴘ</u> : ᴘᴀʏ ᴛʜᴇ ᴀᴍᴏᴜɴᴛ ᴀᴄᴄᴏʀᴅɪɴɢ ᴛᴏ ʏᴏᴜʀ ꜰᴀᴠᴏʀɪᴛᴇ ᴘʟᴀɴ ᴛᴏ ᴛʜɪs <code>rayaviseek@ibl</code> ᴜᴘɪ ɪᴅ.
+    BUY_PLAN = """<b>○ <u>ꜰɪʀsᴛ sᴛᴇᴘ</u> : ᴘᴀʏ ᴛʜᴇ ᴀᴍᴏᴜɴᴛ ᴀᴄᴄᴏʀᴅɪɴɢ ᴛᴏ ʏᴏᴜʀ ꜰᴀᴠᴏʀɪᴛᴇ ᴘʟᴀɴ ᴛᴏ ᴛʜɪs <code>devic5348-1@okaxis</code> ᴜᴘɪ ɪᴅ.
     
-○ <u>secoɴᴅ sᴛᴇᴘ</u> : ᴛᴀᴋᴇ ᴀ sᴄʀᴇᴇɴsʜᴏᴛ ᴏꜰ ʏᴏᴜʀ ᴘᴀʏᴍᴇɴᴛ ᴀɴᴅ sʜᴀʀᴇ ɪᴛ ᴅɪʀᴇᴄᴛʟʏ ʜᴇʀᴇ: @biisal_bot 
+○ <u>secoɴᴅ sᴛᴇᴘ</u> : ᴛᴀᴋᴇ ᴀ sᴄʀᴇᴇɴsʜᴏᴛ ᴏꜰ ʏᴏᴜʀ ᴘᴀʏᴍᴇɴᴛ ᴀɴᴅ sʜᴀʀᴇ ɪᴛ ᴅɪʀᴇᴄᴛʟʏ ʜᴇʀᴇ: @KeshavTheOwner 
 
 ○ <u>ᴀʟᴛᴇʀɴᴀᴛɪᴠᴇ sᴛᴇᴘ</u> : ᴏʀ ᴜᴘʟᴏᴀᴅ ᴛʜᴇ sᴄʀᴇᴇɴsʜᴏᴛ ʜᴇʀᴇ ᴀɴᴅ ʀᴇᴘʟʏ ᴡɪᴛʜ ᴛʜᴇ /bought ᴄᴏᴍᴍᴀɴᴅ.
 
@@ -227,9 +223,11 @@ sᴇɴᴅ ᴍᴇ ᴀɴʏ ᴍᴏᴠɪᴇ ᴏʀ sᴇʀɪᴇs ɴᴀᴍᴇ ᴀɴᴅ 
 
     PLAN_TEXT = """<b>ᴡᴇ ᴀʀᴇ ᴘʀᴏᴠɪᴅɪɴɢ ᴘʀᴇᴍɪᴜᴍ ᴀᴛ ᴛʜᴇ ʟᴏᴡᴇsᴛ ᴘʀɪᴄᴇs:
     
-1 ʀᴜᴘᴇᴇ ᴘᴇʀ ᴅᴀʏ 
-29 ʀᴜᴘᴇᴇs ꜰᴏʀ ᴏɴᴇ ᴍᴏɴᴛʜ 
-55 ʀᴜᴘᴇᴇs ꜰᴏʀ ᴛᴡᴏ ᴍᴏɴᴛʜs 
+❏ 035₹    ➠    𝟶𝟷 ᴡᴇᴇᴋꜱ
+❏ 070₹    ➠    𝟶𝟷 ᴍᴏɴᴛʜ
+❏ 150₹    ➠    𝟶𝟹 ᴍᴏɴᴛʜ
+❏ 250₹    ➠    𝟶𝟼 ᴍᴏɴᴛʜ
+❏ 350₹    ➠    𝟷𝟸 ᴍᴏɴᴛʜ
 
 ᴄʟɪᴄᴋ ᴛʜᴇ ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ ʙᴜʏɪɴɢ ↡↡↡
 </b>"""
@@ -317,5 +315,5 @@ sᴇɴᴅ ᴍᴇ ᴀɴʏ ᴍᴏᴠɪᴇ ᴏʀ sᴇʀɪᴇs ɴᴀᴍᴇ ᴀɴᴅ 
 
     SOURCE_TXT = """<b>ՏOᑌᖇᑕᗴ ᑕOᗪᗴ :</b> 👇
 
-ᴛʜɪs ɪs ᴀɴ ᴏᴘᴇɴ-sᴏᴜʀᴄᴇ ᴘʀᴏᴊᴇᴄᴛ. ʏᴏᴜ ᴄᴀɴ ᴜsᴇ ɪᴛ ꜰʀᴇᴇʟʏ, ʙᴜᴛ sᴇʟʟɪɴɢ ᴛʜᴇ sᴏᴜʀᴄᴇ ᴄᴏᴅᴇ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ."""
+CONTECK ME FOR SOURCE CODE."""
 
